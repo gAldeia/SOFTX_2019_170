@@ -30,4 +30,4 @@ This modification is distributed without warranty. At no time was there any inte
 
 ## License
 
-This modified version is distributed under the same license *GNU AFFERO GENERAL PUBLIC LICENSE*, included in the github repository, and also available [here](https://www.gnu.org/licenses/#AGPL).
+This modified version is distributed under the same license as the original source code, *GNU AFFERO GENERAL PUBLIC LICENSE*. The license is included in this github repository, and also available [here](https://www.gnu.org/licenses/#AGPL).
