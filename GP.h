@@ -13,8 +13,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-//!  \file            GP.h
-//! \brief            file containing the definition of the classes used to represent a symbol, a node of the tree, a population of individuals and definition of the functions
+//! \file            GP.h
+//! \brief           file containing the definition of the classes used to represent a symbol, a node of the tree, a population of individuals and definition of the functions
 //! \date            created on 01/09/2016
 
 #include <iostream>
@@ -25,18 +25,22 @@
 #include <cstring>
 #include <vector>
 #include <sys/time.h>
+
 /// Macro used to generate a random number
 #define frand() ((double) rand() / (RAND_MAX))
 
-
-
+// MODIFICATION: defining pi.
+#define PI 3.14159265
 
 /// variable containing the numbers of terminal symbols (variables, not constant values)
 int NUM_VARIABLE_SYMBOLS;
+
 /// variable that stores the numbers of terminal symbols that contain constant values
 int NUM_CONSTANT_SYMBOLS;
+
 /// variable containing the numbers of functional symbols
 int NUM_FUNCTIONAL_SYMBOLS;
+
 //These are just parenthesis
 int NUM_AUXILIARY_FUNCTIONAL_SYMBOLS;
 
@@ -104,7 +108,6 @@ typedef struct cfg_{
 cfg config;
 
 
-
 /**
  * \class symbol
  *
@@ -119,6 +122,7 @@ cfg config;
  * \date 01/09/2016
  *
  */
+
 class symbol{
 	public:
         /// boolean variable used to discriminate between functional and terminal symbols
@@ -271,11 +275,11 @@ void read_config_file(cfg *config);
 
 
 /*!
-* \fn                void create_T_F()
-* \brief             function that creates the terminal and functional sets.
+* \fn               void create_T_F()
+* \brief            function that creates the terminal and functional sets.
 * \return           void
-* \date             01/09/2016
-* \author          Mauro Castelli
+* \date             02/09/2020
+* \author           (last to touch it) Guilherme Aldeia. Original author: Mauro Castelli
 * \file               GP.h
 */
 void create_T_F();
@@ -395,8 +399,8 @@ double protected_division(double num, double den);
 * \brief             function that evaluates a tree.
 * \param          node *tree: radix of the tree to be evaluated
 * \return           double: the value of the evaluation
-* \date             01/09/2016
-* \author          Mauro Castelli
+* \date             02/09/2020
+* \author          (last to touch it) Guilherme Aldeia. Original author: Mauro Castelli
 * \file               GP.h
 */
 double eval(node *tree);
@@ -419,8 +423,8 @@ void evaluate(population **p);
 * \brief             function that calculates the training fitness of an individual (representing as a tree)
 * \param          node *el: radix of the tree
 * \return           double: the training fitness of the individual
-* \date             01/09/2016
-* \author          Mauro Castelli
+* \date             02/09/2020
+* \author          (last to touch it) Guilherme Aldeia. Original author: Mauro Castelli
 * \file               GP.h
 */
 double Myevaluate(node *el);
@@ -443,8 +447,8 @@ double Myevaluate_test(node *el);
 * \brief             function that calculates the semantics (considering training instances) of a randomly generated tree. The tree is used to perform the semantic geometric crossover or the geometric semantic mutation
 * \param          node* el: radix of the tree to be evaluated
 * \return           void 
-* \date             01/09/2016
-* \author          Mauro Castelli
+* \date             02/09/2020
+* \author          (last to touch it) Guilherme Aldeia. Original author: Mauro Castelli
 * \file              GP.h
 */
 void Myevaluate_random (node *el);
@@ -537,8 +541,8 @@ void geometric_semantic_mutation(int i);
 * \param            vector <double> semantic_values: vector that contains the semantics (calculated on the training set) of an individual
 * \param            bool crossover: variable that indicates if the function has been called by the geometric semantic crossover or by the geometric semantic mutation
 * \return           void
-* \date             01/09/2016
-* \author          Mauro Castelli
+* \date             02/09/2020
+* \author          (last to touch it) Guilherme Aldeia. Original author: Mauro Castelli
 * \file               GP.h
 */
 void update_training_fitness(vector <double> semantic_values, bool crossover);
@@ -550,8 +554,8 @@ void update_training_fitness(vector <double> semantic_values, bool crossover);
 * \param            vector <double> semantic_values: vector that contains the semantics (calculated on the test set) of an individual
 * \param            bool crossover: variable that indicates if the function has been called by the geometric semantic crossover or by the geometric semantic mutation
 * \return           void
-* \date             01/09/2016
-* \author          Mauro Castelli
+* \date             02/09/2020
+* \author          (last to touch it) Guilherme Aldeia. Original author: Mauro Castelli
 * \file               GP.h
 */
 void update_test_fitness(vector <double> semantic_values, bool crossover);
@@ -648,8 +652,8 @@ int search(const char *str);
 * \brief            function that builds a GP individual starting from the specified mathematical expression
 * \param            char expression[]: mathematical expression that represents the GP individual
 * \return           node*: the newly created GP individual
-* \date             01/09/2016
-* \author           Mauro Castelli
+* \date             02/09/2020
+* \author           (last to touch it) Guilherme Aldeia. Original author: Mauro Castelli
 * \file             GP.h
 */
 node* parse_expression( char expression[]);
@@ -689,8 +693,6 @@ void mark_trace();
 */
 void save_trace();
 
-
-
 node* parse_expression( char expression[]){
     
     char token[2000][30];
@@ -719,7 +721,8 @@ node* parse_expression( char expression[]){
 				//char symbol[30];
 				for(int k=0;k<30;k++)
 				//symbol[k]='\0';
-				if(expression[i]=='(' || expression[i]==')' || expression[i]=='-' || expression[i]=='+' || expression[i]=='*' || expression[i]=='/'){
+
+				if(expression[i]=='(' || expression[i]==')' || expression[i]=='-' || expression[i]=='+' || expression[i]=='*' || expression[i]=='/' || expression[i]=='_'){ 
 					node *el=new node;
 					if(expression[i]=='('){
 						el->root=symbols[0];
@@ -739,7 +742,41 @@ node* parse_expression( char expression[]){
 					if(expression[i]=='/'){
 						el->root=symbols[5];
 					}
-					
+
+					if(expression[i]=='_'){ 
+
+						if(expression[i+1]=='s' && expression[i+2]=='q'){//sqrt
+							el->root=symbols[6];
+
+							// update i acording the the length of the symbol string
+							i += 8;
+						}
+						if(expression[i+1]=='s' && expression[i+2]=='i'){//sin
+							el->root=symbols[7];
+
+							i += 3;
+						}
+						if(expression[i+1]=='c' && expression[i+2]=='o'){//cos
+							el->root=symbols[8];
+
+							i += 3;
+						}
+						if(expression[i+1]=='t' && expression[i+2]=='a'){//tanh
+							el->root=symbols[9];
+
+							i += 4;
+						}
+						if(expression[i+1]=='l' && expression[i+2]=='o'){//log
+							el->root=symbols[10];
+
+							i += 3;
+						}
+						if(expression[i+1]=='e' && expression[i+2]=='x'){//exp
+							el->root=symbols[11];
+
+							i += 3;
+						}
+					}
 					
 					
 					if(count_operators>0 && expression[i]!=')'){
@@ -920,7 +957,6 @@ int search(const char *str){
 	
 }
 
-
 void read_config_file(cfg *config){
 	fstream f("configuration.ini", ios::in);
 	if (!f.is_open()) {
@@ -994,14 +1030,27 @@ void read_config_file(cfg *config){
 
 void create_T_F(){
 	NUM_VARIABLE_SYMBOLS=nvar;
-    NUM_FUNCTIONAL_SYMBOLS=4;
+
+    NUM_FUNCTIONAL_SYMBOLS=10; 
+
 	NUM_AUXILIARY_FUNCTIONAL_SYMBOLS=2;
+
+	// original functions
 	symbols.push_back(new symbol(1,0,0,"(",-1));
 	symbols.push_back(new symbol(1,0,1,")",-1));
 	symbols.push_back(new symbol(1,2,2,"+",2));
     symbols.push_back(new symbol(1,2,3,"-",2));
     symbols.push_back(new symbol(1,2,4,"*",3));
     symbols.push_back(new symbol(1,2,5,"/",3));
+
+	// new symbols
+    symbols.push_back(new symbol(1, 1, 6, "_sqrt.abs", 1));
+	symbols.push_back(new symbol(1, 1, 7, "_sin", 1));
+	symbols.push_back(new symbol(1, 1, 8, "_cos", 1));
+	symbols.push_back(new symbol(1, 1, 9, "_tanh", 1));
+	symbols.push_back(new symbol(1, 1, 10, "_log", 1));
+	symbols.push_back(new symbol(1, 1, 11, "_exp", 1));
+
     for(int i=NUM_FUNCTIONAL_SYMBOLS+NUM_AUXILIARY_FUNCTIONAL_SYMBOLS;i<NUM_VARIABLE_SYMBOLS+NUM_AUXILIARY_FUNCTIONAL_SYMBOLS+NUM_FUNCTIONAL_SYMBOLS;i++){
 		char str[50] = "x";
         char buf[50]="";
@@ -1044,10 +1093,36 @@ void print_math_style (node *el, string &s) {
             		s = s + " * ";
                     print_math_style (el->children[1], s);
             	break;
-		case 5:
+			case 5:
             		print_math_style (el->children[0], s);
             		s = s + " / ";
                     print_math_style (el->children[1], s);
+            	break;
+
+			// new cases to handle my custom symbols
+			case 6:
+            		s = s + " _sqrt.abs ";
+					print_math_style (el->children[0], s);
+            	break;
+			case 7: 
+            		s = s + " _sin ";
+					print_math_style (el->children[0], s);
+            	break;
+			case 8: 
+            		s = s + " _cos ";
+					print_math_style (el->children[0], s);
+            	break;
+			case 9: 
+            		s = s + " _tanh ";
+					print_math_style (el->children[0], s);
+            	break;
+			case 10: 
+            		s = s + " _log ";
+					print_math_style (el->children[0], s);
+            	break;
+			case 11: 
+            		s = s + " _exp ";
+					print_math_style (el->children[0], s);
             	break;
         	}
 		s = s + " )";
@@ -1173,8 +1248,8 @@ void create_ramped_pop(population **p){
 
 void create_population(population **p, int i){
 	
-	if(config.expression_file==1){
-		
+	if(config.expression_file==1){ 
+
 		int j=0;
 		fstream f("individuals.txt", ios::in);
 		if (!f.is_open()) {
@@ -1294,6 +1369,43 @@ double eval(node *tree){
 		if(strcmp(tree->root->name,"/")==0){
 			return protected_division(eval(tree->children[0]),eval(tree->children[1]));
 		}
+		
+		// evaluation of new symbols
+		if(strcmp(tree->root->name,"_sqrt.abs")==0){ 
+			return sqrt(fabs(eval(tree->children[0])));
+		}
+		if(strcmp(tree->root->name,"_sin")==0){
+
+			return sin(eval(tree->children[0])*PI/180);
+		}
+		if(strcmp(tree->root->name,"_cos")==0){
+
+			return cos(eval(tree->children[0])*PI/180);
+		}
+		if(strcmp(tree->root->name,"_tanh")==0){
+
+			return tanh(eval(tree->children[0])*PI/180);
+		}
+		if(strcmp(tree->root->name,"_log")==0){
+
+			double gsia_result = eval(tree->children[0]);
+
+			if (gsia_result <= 0){
+				return 0.0;
+			}
+
+			return log(gsia_result);
+		}
+		if(strcmp(tree->root->name,"_exp")==0){
+
+			double gsia_result = eval(tree->children[0]);
+
+			if (gsia_result >= 300){
+				return exp(300);
+			}
+
+			return exp(gsia_result);
+		}
 	}
 	else{
 		return (tree->root->value);
@@ -1331,13 +1443,12 @@ double Myevaluate (node *el) {
 	       update_terminal_symbols(i);
 	       set[i].res=eval(el);
 	       val.push_back(set[i].res);
-	       d+=fabs(set[i].res-set[i].y_value);
+	       d+=pow(set[i].res-set[i].y_value, 2);
     }
     sem_train_cases.push_back(val);
-    d=(d/nrow);
+    d=sqrt(d/nrow);
     return d;
 }
-
 
 double Myevaluate_test (node *el) {
 	double d=0;
@@ -1346,15 +1457,15 @@ double Myevaluate_test (node *el) {
         update_terminal_symbols(i);
         set[i].res=eval(el);
         val.push_back(set[i].res);
-        d+=fabs(set[i].res-set[i].y_value);
+        d+=pow(set[i].res-set[i].y_value, 2);
     }
     sem_test_cases.push_back(val);
-    d=(d/nrow_test);
+    d=sqrt(d/nrow_test);
     return d;
 }
 
 
-void Myevaluate_random (node *el){
+void Myevaluate_random(node *el){
     
 	vector <double> val;
 	for(int i=0;i<nrow;i++){
@@ -1533,29 +1644,26 @@ void geometric_semantic_mutation(int i){
     }
 }
 
-
-
 void update_training_fitness(vector <double> semantic_values, bool crossover){
     double d=0;
     for(int j=0;j<nrow;j++){
-        d+=fabs(semantic_values[j]-set[j].y_value);
+        d+=pow(semantic_values[j]-set[j].y_value, 2);
     }
     if(crossover==1)
-        fit_new.push_back((d/nrow));
+        fit_new.push_back(sqrt(d/nrow));
     else    
-        fit_new[fit_new.size()-1]=(d/nrow);
+        fit_new[fit_new.size()-1]=sqrt(d/nrow);
 }
-
 
 void update_test_fitness(vector <double> semantic_values, bool crossover){
     double d=0;
     for(int j=nrow;j<nrow+nrow_test;j++){
-        d+=fabs(semantic_values[j-nrow]-set[j].y_value);
+        d+=pow(semantic_values[j-nrow]-set[j].y_value, 2);
     }
     if(crossover == 1)
-        fit_new_test.push_back((d/nrow_test));
+        fit_new_test.push_back(sqrt(d/nrow_test));
     else    
-        fit_new_test[fit_new_test.size()-1]=(d/nrow_test);
+        fit_new_test[fit_new_test.size()-1]=sqrt(d/nrow_test);
 }
 
 
@@ -1609,7 +1717,7 @@ void read_input_data(char *train_file, char *test_file){
 	in_test >> str;
 	nrow_test = atoi(str);
     set = new Instance[nrow+nrow_test];
-	   for (int i=0;i<nrow;i++) {
+	for (int i=0;i<nrow;i++) {
         set[i].vars = new double[nvar];
 	    for (int j=0; j<nvar; j++) {
             in >> str;
@@ -1703,7 +1811,7 @@ void evaluate_unseen_new_data(population **p, ofstream& OUT){
     }
     else{
         char str[255];
-        while(true){                
+		while(true){ 
             in >> str;
             if(strcmp(str,"***")==0){
                 break;
@@ -1723,8 +1831,9 @@ void evaluate_unseen_new_data(population **p, ofstream& OUT){
                 eval_random[index3-config.population_size]=eval((*p)->individuals[index3]);
                 eval_[index1]=eval((*p)->individuals[index1]);
                 eval_[index2]=eval((*p)->individuals[index2]);
-                double sigmoid=1.0/(1+exp(-(eval_random[index3-config.population_size])));
-                eval_[index5]=eval_[index1]*(sigmoid)+eval_[index2]*(1-sigmoid);
+				
+				double sigmoid=1.0/(1+exp(-(eval_random[index3-config.population_size])));
+                eval_[index5]=eval_[index1]*(sigmoid)+eval_[index2]*(1-sigmoid); 
             }
             if(index4==1){ 
                 eval_random[index1-config.population_size]=eval((*p)->individuals[index1]);
@@ -1737,8 +1846,8 @@ void evaluate_unseen_new_data(population **p, ofstream& OUT){
                 eval_[index5]=eval_[index1];
             }
 		}
-			
-       	while(!in.eof()){
+		
+		while(!in.eof()){ 
             for(int i=0; i<config.population_size; i++){
                 eval_new.push_back(-1);
             }
@@ -1788,5 +1897,5 @@ void evaluate_unseen_new_data(population **p, ofstream& OUT){
 			eval_new.clear();			
         }		
     }
-    OUT<<eval_[best]<<endl;
+	OUT<<eval_[best]<<endl; 
 }

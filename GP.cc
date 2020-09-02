@@ -13,9 +13,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-//!  \file           GP.cc
-//! \brief           file containing the main with the genetic programming algorithm
-//! \date            created on 01/09/2016
+//! \file           GP.cc
+//! \brief          file containing the main with the genetic programming algorithm
+//! \date           created on 01/09/2016
 
 #include "GP.h"
 
@@ -28,16 +28,18 @@ using namespace std;
 * \param           int argc: number of parameters of the program
 * \param           const char **argv: array of strings that contains the parameters of the program
 * \return          int: 0 if the program ends without errors
-* \date            01/09/2016
-* \author          Mauro Castelli
+* \date            02/09/2020
+* \author          (last to touch it) Guilherme Aldeia. Original author: Mauro Castelli
 * \file            GP.cc
 */
 int main(int argc, const char **argv){
 
     // name of the file with training instances 
     char path_in[50]="";
+
     // name of the file with test instances
     char path_test[50]="";
+
    	for (int i=1; i<argc-1; i++) {
         if(strncmp(argv[i],"-train_file",11) == 0) {
             strcat(path_in,argv[++i]);
@@ -51,8 +53,10 @@ int main(int argc, const char **argv){
 
 	// initialization of the seed for the generation of random numbers
 	srand(time (NULL));
+
 	// reading the parameters of the GP algorithm
 	read_config_file(&config);	
+
 	// creation of an empty population
 	population *p=new population();
 	
@@ -136,10 +140,14 @@ int main(int argc, const char **argv){
 			//Register execution time
 			gettimeofday(&start, NULL);
 		
-			cout<<"Generation "<<num_gen+1<<endl;
+			// MODIFICATION: stop printing the generations
+			//cout<<"Generation "<<num_gen+1<<endl;
+
 			// creation of a new population (without building trees!!)
 			for(int k=0;k<config.population_size;k++){
+
 				double rand_num=frand();
+
 				// geometric semantic crossover
 				if(rand_num<config.p_crossover)
 					geometric_semantic_crossover(k);
